@@ -21,7 +21,8 @@ class BurgerBuilder extends Component {
     totalPrice: 4,
     purchaseable: false,
     purchasing: false,
-    loading: false
+    loading: false,
+    error: false
   };
 
   componentDidMount() {
@@ -29,6 +30,9 @@ class BurgerBuilder extends Component {
       .get("https://burgerapp-daa32.firebaseio.com/ingredients.json")
       .then(response => {
         this.setState({ ingredients: response.data });
+      })
+      .catch(error => {
+        this.setState({ error: true });
       });
   }
 
@@ -119,19 +123,11 @@ class BurgerBuilder extends Component {
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
     let orderSummary = null;
-    let orderSummary = (
-      <OrderSummary
-        price={this.state.totalPrice}
-        ingredients={this.state.ingredients}
-        purchaseCancelled={this.purchaseCancelHandler}
-        purchaseContinued={this.purchaseContinueHandler}
-      />
+    let burger = this.state.error ? (
+      <p>Ingredients can't be loaded at this time!</p>
+    ) : (
+      <Spinner />
     );
-    if (this.state.loading) {
-      orderSummary = <Spinner />;
-    }
-
-    let burger = <Spinner />;
 
     if (this.state.ingredients) {
       burger = (
@@ -147,6 +143,18 @@ class BurgerBuilder extends Component {
           />
         </>
       );
+      orderSummary = (
+        <OrderSummary
+          price={this.state.totalPrice}
+          ingredients={this.state.ingredients}
+          purchaseCancelled={this.purchaseCancelHandler}
+          purchaseContinued={this.purchaseContinueHandler}
+        />
+      );
+
+      if (this.state.loading) {
+        orderSummary = <Spinner />;
+      }
     }
 
     return (
