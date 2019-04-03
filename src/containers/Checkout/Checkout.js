@@ -13,7 +13,7 @@ class Checkout extends Component {
   render() {
     return (
       <div>
-        <checkoutSummary ingredients={this.state.ingredients} />
+        <CheckoutSummary ingredients={this.state.ingredients} />
       </div>
     );
   }
