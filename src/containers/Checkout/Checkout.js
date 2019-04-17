@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
 import ContactData from "./ContactData/ContactData";
+
 class Checkout extends Component {
   state = {
     ingredients: null,
@@ -29,12 +30,12 @@ class Checkout extends Component {
     this.props.history.goBack();
   };
 
-  checkoutContinued = () => {
+  checkoutContinuedHandler = () => {
     this.props.history.replace("/checkout/contact-data");
   };
 
   render() {
-    console.log(this.props);
+    // console.log(this.props);
     return (
       <div>
         <CheckoutSummary
@@ -42,12 +43,13 @@ class Checkout extends Component {
           checkoutCancelled={this.checkoutCancelledHandler}
           checkoutContinued={this.checkoutContinuedHandler}
         />
+
         <Route
           path={this.props.match.path + "/contact-data"}
           render={props => (
             <ContactData
               ingredients={this.state.ingredients}
-              price={this.state.total}
+              price={this.state.totalPrice}
               {...props}
             />
           )}

@@ -19,7 +19,7 @@ class ContactData extends Component {
     console.log(this.props);
     // this.setState({ [e.target.name]: e.target.value });
 
-    alert("You continue!");
+    // alert("You continue!");
     this.setState({ loading: true });
     const order = {
       ingredients: this.props.ingredients,
