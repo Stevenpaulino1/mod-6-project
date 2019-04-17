@@ -10,6 +10,7 @@ class Orders extends Component {
   };
 
   componentDidMount() {
+    console.log("MOUNTING");
     axios
       .get("./orders.json")
       .then(res => {
@@ -38,4 +39,4 @@ class Orders extends Component {
     );
   }
 }
-export default withErrorHandler(Orders);
+export default withErrorHandler(Orders, axios);

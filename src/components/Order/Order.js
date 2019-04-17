@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./Order.css";
+
 const order = props => {
   const ingredients = [];
   for (let ingredientName in props.ingredients) {
@@ -18,6 +19,7 @@ const order = props => {
           boarder: "1px solid #ccc",
           padding: "5px"
         }}
+        key={ig.name}
       >
         {ig.name} {ig.amount}
       </span>
