@@ -14,7 +14,11 @@ class ContactData extends Component {
           type: "text",
           placeholder: "Your Name"
         },
-        value: ""
+        value: "",
+        validation: {
+          required: true
+        },
+        valid: false
       },
       street: {
         elementType: "input",
@@ -22,7 +26,11 @@ class ContactData extends Component {
           type: "text",
           placeholder: "Your Street"
         },
-        value: ""
+        value: "",
+        validation: {
+          required: true
+        },
+        valid: false
       },
       zipCode: {
         elementType: "input",
@@ -30,7 +38,13 @@ class ContactData extends Component {
           type: "text",
           placeholder: "Your ZIP"
         },
-        value: ""
+        value: "",
+        validation: {
+          required: true,
+          minLength: 5,
+          maxLength: 5
+        },
+        valid: false
       },
       country: {
         elementType: "input",
@@ -38,7 +52,11 @@ class ContactData extends Component {
           type: "text",
           placeholder: "Your Country"
         },
-        value: ""
+        value: "",
+        validation: {
+          required: true
+        },
+        valid: false
       },
       email: {
         elementType: "input",
@@ -46,14 +64,19 @@ class ContactData extends Component {
           type: "text",
           placeholder: "Your E-mail"
         },
-        value: ""
+        value: "",
+        validation: {
+          required: true
+        },
+        valid: false
       },
       deliveryMethod: {
         elementType: "select",
         elementConfig: {
           options: [
             {
-              value: "fastest"
+              value: "fastest",
+              value: "cheapest"
             }
           ]
         },
@@ -95,9 +118,28 @@ class ContactData extends Component {
     const updatedOrderForm = { ...this.state.orderForm };
     const updatedFormEl = { ...updatedOrderForm[inputIdentifier] };
     updatedFormEl.value = event.target.value;
+    updatedFormEl.valid = this.checkValidity(
+      updatedFormEl.value,
+      updatedFormEl.required
+    );
     updatedOrderForm[inputIdentifier] = updatedFormEl;
     this.setState({ orderForm: updatedOrderForm });
   };
+
+  checkValidity(value, rules) {
+    let isValid = true;
+    if (rules.required) {
+      isValid = value.trim() !== "" && isValid;
+    }
+    if (rules.minLength) {
+      isValid = value.minLength >= rules.minLength && isValid;
+    }
+    if (rules.maxLength) {
+      isValid = value.maxLength <= rules.maxLength && isValid;
+    }
+
+    return isValid;
+  }
 
   render() {
     console.log("CD STATE", this.state);
