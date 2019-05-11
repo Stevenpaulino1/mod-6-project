@@ -44,7 +44,8 @@ class ContactData extends Component {
         validation: {
           required: true,
           minLength: 5,
-          maxLength: 5
+          maxLength: 5,
+          isNumeric: true
         },
         valid: false,
         touched: false
@@ -119,14 +120,45 @@ class ContactData extends Component {
       });
   };
 
+  checkValidity(value, rules) {
+    let isValid = true;
+    if (!rules) {
+      return true;
+    }
+    if (rules.required) {
+      isValid = value.trim() !== "" && isValid;
+    }
+    if (rules.minLength) {
+      isValid = value.length >= rules.minLength && isValid;
+      console.log("MINLENGTH", isValid);
+    }
+    if (rules.maxLength) {
+      isValid = value.length <= rules.maxLength && isValid;
+      console.log("MaxLENGTH", isValid);
+    }
+
+    if (rules.isEmail) {
+      const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+      isValid = pattern.test(value) && isValid;
+    }
+
+    if (rules.isNumeric) {
+      const pattern = /^\d+$/;
+      isValid = pattern.test(value) && isValid;
+    }
+    console.log("checkValidity", value, rules, isValid);
+
+    return isValid;
+  }
+
   inputHandleChange = (event, inputIdentifier) => {
-    console.log("inputIdentifier", event.target.value, inputIdentifier);
+    // console.log("inputIdentifier", event.target.value, inputIdentifier);
     const updatedOrderForm = { ...this.state.orderForm };
     const updatedFormEl = { ...updatedOrderForm[inputIdentifier] };
     updatedFormEl.value = event.target.value;
     updatedFormEl.valid = this.checkValidity(
       updatedFormEl.value,
-      updatedFormEl.required
+      updatedFormEl.validation
     );
     updatedFormEl.touched = true;
     updatedOrderForm[inputIdentifier] = updatedFormEl;
@@ -139,23 +171,8 @@ class ContactData extends Component {
     this.setState({ orderForm: updatedOrderForm, formIsValid: formIsValid });
   };
 
-  checkValidity(value, rules) {
-    let isValid = true;
-    if (rules.required) {
-      isValid = value.trim() !== "" && isValid;
-    }
-    if (rules.minLength) {
-      isValid = value.minLength >= rules.minLength && isValid;
-    }
-    if (rules.maxLength) {
-      isValid = value.maxLength <= rules.maxLength && isValid;
-    }
-
-    return isValid;
-  }
-
   render() {
-    console.log("CD STATE", this.state);
+    // console.log("CD STATE", this.state);
     // console.log("ContactData", this.props);
     const formElementsArray = [];
     for (let key in this.state.orderForm) {
