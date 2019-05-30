@@ -32,6 +32,7 @@ export const initIngredients = () => {
       .get("https://burgerapp-daa32.firebaseio.com/.json")
       // .then(r => console.log(r.data.ingredients));
       .then(response => {
+        console.log("RESPONSE", response.data);
         dispatch(setIngredients(response.data));
       })
       .catch(error => {
