@@ -37,7 +37,15 @@ class Auth extends Component {
         valid: false,
         touched: false
       }
-    }
+    },
+    isSignedUp: true
+  };
+
+  switchAuthModeHandler = () => {
+    this.setState(prevState => {
+      console.log(prevState);
+      return { isSignedUp: !prevState.isSignedUp };
+    });
   };
 
   inputHandleChange = (event, controlName) => {
@@ -46,7 +54,10 @@ class Auth extends Component {
       [controlName]: {
         ...this.state.controls[controlName],
         value: event.target.value,
-        valid: this.checkValidity(event.target.value, this.state.controls),
+        valid: this.checkValidity(
+          event.target.value,
+          this.state.controls[controlName].validation
+        ),
         touched: true
       }
     };
@@ -98,31 +109,29 @@ class Auth extends Component {
       formElementsArray.push({ id: key, config: this.state.controls[key] });
     }
 
-    const form = formElementsArray.map(
-      formEl => (
-        console.log(formEl),
-        (
-          <Input
-            key={formEl.id}
-            elementType={formEl.config.elementType}
-            elementConfig={formEl.config.elementConfig}
-            value={formEl.config.value}
-            invalid={!formEl.config.valid}
-            touched={formEl.config.touched}
-            shouldValidate={formEl.config.validation}
-            inputHandleChange={event =>
-              this.inputHandleChange(event, formEl.id)
-            }
-          />
-        )
-      )
-    );
+    const form = formElementsArray.map(formEl => (
+      // console.log(formEl),
+      <Input
+        key={formEl.id}
+        elementType={formEl.config.elementType}
+        elementConfig={formEl.config.elementConfig}
+        value={formEl.config.value}
+        invalid={!formEl.config.valid}
+        touched={formEl.config.touched}
+        shouldValidate={formEl.config.validation}
+        inputHandleChange={event => this.inputHandleChange(event, formEl.id)}
+      />
+    ));
     return (
       <div className={classes.Auth}>
         <form onSubmit={this.submitHandler}>
           {form}
           <Button btnType="Success"> SUBMIT </Button>
         </form>
+        <Button btnType="Danger">
+          clicked = {this.switchAuthModeHandler}
+          Swith To {this.state.isSignedUp ? "SIGNIN" : "SIGN UP"}
+        </Button>
       </div>
     );
   }

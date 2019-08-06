@@ -19,7 +19,7 @@ export const authfail = error => {
   };
 };
 
-export const auth = (email, password) => {
+export const auth = (email, password, method) => {
   return dispatch => {
     dispatch(authStart());
     const authData = {
