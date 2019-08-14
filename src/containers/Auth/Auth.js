@@ -90,7 +90,7 @@ class Auth extends Component {
       const pattern = /^\d+$/;
       isValid = pattern.test(value) && isValid;
     }
-    console.log("checkValidity", value, rules, isValid);
+    // console.log("checkValidity", value, rules, isValid);
 
     return isValid;
   }
@@ -99,7 +99,8 @@ class Auth extends Component {
     event.preventDefault();
     this.props.onAuth(
       this.state.controls.email.value,
-      this.state.controls.password.value
+      this.state.controls.password.value,
+      this.state.isSignedUp
     );
   };
 
@@ -128,9 +129,8 @@ class Auth extends Component {
           {form}
           <Button btnType="Success"> SUBMIT </Button>
         </form>
-        <Button btnType="Danger">
-          clicked = {this.switchAuthModeHandler}
-          Swith To {this.state.isSignedUp ? "SIGNIN" : "SIGN UP"}
+        <Button clicked={this.switchAuthModeHandler} btnType="Danger">
+          SWITCH TO {this.state.isSignedUp ? "SIGNIN" : "SIGNUP"}
         </Button>
       </div>
     );
@@ -139,7 +139,8 @@ class Auth extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (email, password) => dispatch(actions.auth(email, password))
+    onAuth: (email, password, isSignedUp) =>
+      dispatch(actions.auth(email, password, isSignedUp))
   };
 };
 
