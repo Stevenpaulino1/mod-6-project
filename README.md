@@ -5,6 +5,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Burger app where a user can order custom burgers
 - Built using React, Google Firebase
 
-# Coming Soon
+#Deployed
+https://burgerapp-daa32.firebaseapp.com/auth
+
+# Currently:
 
 - React hooking it up
+- Writing tests
