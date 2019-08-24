@@ -7,5 +7,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 # Coming Soon
 
-- Authentication
-- Redux
+- React hooking it up
