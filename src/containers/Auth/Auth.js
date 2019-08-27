@@ -53,34 +53,31 @@ const auth = props => {
     setIsSignedUp(!isSignedUp);
   };
 
-  inputHandleChange = (event, controlName) => {
-    const updatedControls = {
-      updateObject(authForm, {),
-      [controlName]: {
-        updateObject(authForm[controlName],
+  const inputChangedHandler = (event, controlName) => {
+    const updatedControls = updateObject(authForm, {
+      [controlName]: updateObject(authForm[controlName], {
         value: event.target.value,
         valid: checkValidity(
           event.target.value,
-          this.state.controls[controlName].validation
+          authForm[controlName].validation
         ),
         touched: true
-      }
-    };
-    this.setState({ controls: updatedControls });
+      })
+    });
+    setAuthForm(updatedControls);
   };
 
-  submitHandler = event => {
+  const submitHandler = event => {
     event.preventDefault();
-    props.onAuth(
-      this.state.controls.email.value,
-      this.state.controls.password.value,
-      this.state.isSignedUp
-    );
+    props.onAuth(authForm.email.value, authForm.password.value, isSignedUp);
   };
 
   const formElementsArray = [];
-  for (let key in this.state.controls) {
-    formElementsArray.push({ id: key, config: this.state.controls[key] });
+  for (let key in authForm) {
+    formElementsArray.push({
+      id: key,
+      config: authForm[key]
+    });
   }
 
   let form = formElementsArray.map(formEl => (
@@ -93,7 +90,7 @@ const auth = props => {
       invalid={!formEl.config.valid}
       touched={formEl.config.touched}
       shouldValidate={formEl.config.validation}
-      inputHandleChange={event => this.inputHandleChange(event, formEl.id)}
+      inputHandleChange={event => inputChangedHandler(event, formEl.id)}
     />
   ));
 
