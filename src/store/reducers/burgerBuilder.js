@@ -39,8 +39,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_INGREDIENTS:
       return {
         ...state,
-        // ingredients: action.ingredients,
-        //changes the order of appearance
+
         ingredients: {
           salad: action.ingredients.salad,
           bacon: action.ingredients.bacon,
